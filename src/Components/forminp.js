@@ -15,16 +15,17 @@ let [cptrue, setCpt] = useState(false)
 function getdata(e){
     e.preventDefault()
 
-    if(email||pass||cpass==""){
+    if(email||pass||cpass===""){
         alert("Please input all the values")
     }
+    
 }
 
 function emaildata(e){
     setEt(true)
     setEmail(e.target.value)
     
-    if(e.target.value==""){
+    if(e.target.value===""){
         setEt(false)
     }
 }
@@ -33,7 +34,7 @@ function passdata(e){
     setPt(true)
     setPass(e.target.value) 
 
-    if(e.target.value==""){
+    if(e.target.value===""){
         setPt(false)
     }
 }
@@ -42,7 +43,7 @@ function conpassdata(e){
    setCpt(true)
    setCpass(e.target.value)
 
-   if(e.target.value==""){
+   if(e.target.value===""){
     setCpt(false)
 }
 }

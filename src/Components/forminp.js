@@ -4,9 +4,11 @@ import { useState } from "react";
 
 const Forminp = () =>{
 
-let [email,setEmail] = useState("");
-let [pass,setPass]   = useState("");
-let [cpass,setCpass] = useState("")
+let [formdata, setFormdata] = useState({
+    email : "",
+    pass : "",
+    cpass : ""
+})
 
 let [etrue,setEt]    = useState(false);
 let [ptrue, setPt]   = useState(false);
@@ -15,15 +17,29 @@ let [cptrue, setCpt] = useState(false)
 function getdata(e){
     e.preventDefault()
 
-    if(email||pass||cpass===""){
+    if(etrue===false||ptrue===false||cptrue===false){
         alert("Please input all the values")
     }
-    
+    else{
+        setFormdata({
+            email: "",
+            pass: "",
+            cpass: "",
+        })
+        setEt(false)
+        setPt(false)
+        setCpt(false)
+        alert("Form Submitted Successfully")
+    }
 }
 
 function emaildata(e){
-    setEt(true)
-    setEmail(e.target.value)
+    const emailRegex = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    if(emailRegex.test(e.target.value)){
+        setEt(true);
+    }
+
+    setFormdata({...formdata, [e.target.name]:e.target.value})
     
     if(e.target.value===""){
         setEt(false)
@@ -31,8 +47,10 @@ function emaildata(e){
 }
 
 function passdata(e){
-    setPt(true)
-    setPass(e.target.value) 
+    if(e.target.value.length>=8){
+        setPt(true)
+    }
+    setFormdata({...formdata, [e.target.name]:e.target.value}) 
 
     if(e.target.value===""){
         setPt(false)
@@ -40,13 +58,20 @@ function passdata(e){
 }
 
 function conpassdata(e){
-   setCpt(true)
-   setCpass(e.target.value)
 
-   if(e.target.value===""){
+    setFormdata({...formdata, [e.target.name]:e.target.value})
+
+   if(e.target.value!==formdata.pass){
     setCpt(false)
+    }
+    else if(e.target.value===""){
+        setCpt(false)
+    }
+    else{
+    setCpt(true)
+    }
 }
-}
+
 
 return(
     <div className="form">
@@ -54,17 +79,17 @@ return(
         <form onSubmit={getdata}>
             <label>Email:</label>
             <br></br>
-            <input onChange={emaildata} type="email" placeholder="Enter your Email"/>
+            <input value={formdata.email} className={etrue && "green"}  onChange={emaildata} name="email" type="email" placeholder="Enter your Email"/>
             {etrue ? <p>  </p> : <p className="red">Invalid Email format</p>}
 
             <label>Password:</label>
             <br></br>
-            <input onChange={passdata} type="password" minLength={8} placeholder="Password min length 8"/>
+            <input value={formdata.pass} className={ptrue && "green"}  onChange={passdata} name="pass" type="password" placeholder="Password min length 8"/>
             {ptrue ? <p>  </p> : <p className="red">Passwords must be atleast 8 characters</p>}
 
             <label>Confirm Password:</label>
             <br></br>
-            <input onChange={conpassdata} type="password" placeholder="Confirm Password"/>
+            <input value={formdata.cpass} className={cptrue && "green"}  onChange={conpassdata} name="cpass" type="password" placeholder="Confirm Password"/>
             {cptrue ? <p>  </p> : <p className="red">Passwords do not match</p>}
             <button type="submit">Sign up</button>
         </form>

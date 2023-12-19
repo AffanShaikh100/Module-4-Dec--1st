@@ -77,6 +77,8 @@ return(
     <div className="form">
 
         <form onSubmit={getdata}>
+                  <h1>Sign-up Form</h1>
+
             <label>Email:</label>
             <br></br>
             <input value={formdata.email} className={etrue && "green"}  onChange={emaildata} name="email" type="email" placeholder="Enter your Email"/>
